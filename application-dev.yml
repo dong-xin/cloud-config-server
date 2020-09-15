@@ -1,6 +1,3 @@
-server:
-  port: 8087
-
 #应用名称：别名
 spring:
   application:
@@ -19,3 +16,61 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://security:security@localhost:8080/eureka
+      
+provider:
+  url: http://localhost:8081/providerUser/
+
+#设置eureka客户端
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://security:security@localhost:8080/eureka
+  #在eureka页面中显示ip，默认显示主机名称
+  #instance:
+  #prefer-ip-address: true
+  #如果是设置服务前缀，则需要指定home-page-url-path
+  #如果是设置反向代理，则需要指定home-page-url
+  instance:
+    #home-page-url-path: /api
+    metadata-map:
+      management:
+        port: 8085
+
+#指定PROVIDER负载均衡规则
+#WeightedResponseTimeRule：权重
+#RandomRule:随机
+PROVIDER:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+
+#禁用ribbon
+#ribbon:
+  #eureka:
+    #enabled: false
+
+#Hystrix actuator Stream:监听hystrix执行操作流状态
+#默认只开启health、info，访问hystrix.stream会404
+#设置 *：暴露所有端点、env：获取全部环境属性、health：获取服务健康指标 mappings：获取所有URI路径 hystrix.stream：运行状态及数据
+#访问：http://ip:port/actuator/hystrix.stream
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'health,info,hystrix.stream'
+  server:
+    port: 8085
+
+#设置hystrix turbine dashboard监听消费者服务
+#单个监听服务访问：http://ip:port/turbine.stream?cluster=CONSUMER
+#多个监听服务访问：http://ip:port/turbine.stream
+#设置监听多个消费服务：
+#cluster-config：监听多个则设置为default
+#app-config:多个名称用逗号隔开
+#cluster-name-expression: 'default'
+turbine:
+  aggregator:
+    cluster-config: CONSUMER
+  app-config: consumer
+  #cluster-name-expression: 'default'
+  #应用设置过前缀，则需要让turbine知道
+  #instanceUrlSuffix: api/actuator/hystrix.stream
