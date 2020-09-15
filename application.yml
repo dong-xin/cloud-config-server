@@ -1,0 +1,15 @@
+server:
+  port: 8087
+
+#应用名称：别名
+spring:
+  application:
+    name: configServer
+  #git地址
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/dong-xin/cloud-config-server
+          #单位：秒
+          timeout: 5
