@@ -12,7 +12,7 @@ spring:
           timeout: 5
       
 provider:
-  url: http://localhost:8081/providerUser/
+  url: http://localhost:8082/providerUser/
 
 #设置eureka客户端
 eureka:
