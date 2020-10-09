@@ -51,8 +51,8 @@ management:
     web:
       exposure:
         include: 'health,info,hystrix.stream'
-  server:
-    port: 8085
+  #server:
+    #port: 8085
 
 #设置hystrix turbine dashboard监听消费者服务
 #单个监听服务访问：http://ip:port/turbine.stream?cluster=CONSUMER
